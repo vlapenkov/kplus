@@ -1,0 +1,40 @@
+<h1 id="tableLabel">Список авто</h1>
+
+
+<div style="margin-bottom: 5px;"><a routerLink="/edit-car"><button class="btn btn-success pull-right" > Добавить</button></a></div>
+
+<div *ngIf="carItems; else loading">
+<table class='table table-striped' aria-labelledby="tableLabel" >
+  <thead>
+  <tr>
+    <th>Бренд</th>
+    <th>Модель</th>
+    <th>Кузов</th>
+    <th>Дата</th>
+    <th>Мест</th>
+    <th>Url</th>
+    <th>Действие</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let car of carItems | paginate: { itemsPerPage: 5, currentPage: p ,totalItems:totalItems} ">
+    <td><a [routerLink]="['/edit-car',car.id ]">
+      {{ car.brand.name }}
+    </a>
+      </td>
+    <td>{{car.modelName}}</td>
+    <td>{{ car.chassisType.name }}</td>
+    <td>{{ car.created | date:'dd.MM.yyyy' }}</td>
+    <td>{{ car.seatsCount }}</td>
+    <td>{{ car.url }}</td>
+    <td><a (click)="delete(car.id)" class="clear-field">×</a>
+
+    </td>
+  </tr>
+  </tbody>
+</table>
+  <pagination-controls (pageChange)="p = $event;loadPage(p)"></pagination-controls>
+</div>
+<ng-template #loading ><app-loader></app-loader></ng-template>
+
+

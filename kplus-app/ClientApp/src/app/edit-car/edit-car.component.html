@@ -1,0 +1,59 @@
+
+<p>{{id}}</p>
+
+<div *ngIf="!isLoading" class="col-8 col-xs-12">
+  <div class="alert alert-danger" *ngIf="formCar.errors">
+    <em *ngIf="formCar.errors.error400"> {{formCar.errors.error400.title}}</em>
+    <em *ngIf="formCar.errors.error500"> {{formCar.errors.error500.title}}</em>
+  </div>
+<form [formGroup]="formCar" >
+  <div class="form-group" >
+    <label for="brand">Бренд</label>
+<select id="brand" formControlName="brand"   class="form-control">
+  <option *ngFor="let brand of brands" [ngValue]="brand.id">
+    {{brand.name}}
+  </option>>
+</select>
+  </div>
+
+  <div class="form-group">
+    <label for="modelName">Модель</label>
+    <input type="text" id="modelName" formControlName="modelName" class="form-control">
+  </div>
+
+  <div class="form-group">
+    <label for="chassis">Кузов</label>
+ <select id="chassis" formControlName="chassis"   class="form-control">
+    <option *ngFor="let chas of chassis" [ngValue]="chas.id">
+      {{chas.name}}
+    </option>>
+  </select>
+  </div>
+
+  <div class="form-group">
+    <label for="seatsCount">Число мест</label>
+  <input type="number" id="seatsCount" formControlName="seatsCount" class="form-control">
+  </div>
+  <div class="form-group" style="max-height: 100px;">
+    <img [src]="urlPath" height="100"> <br/>
+    <input type='file' (change)="selectFile($event)">
+  </div>
+
+  <div class="form-group" style="margin-top: 50px">
+    <label for="url">Url</label>
+  <input type="text" id="url" formControlName="url" class="form-control">
+  </div>
+  <button type="button" class="btn btn-primary" *ngIf="formCar.valid && !isUpdated" (click)="save()">Сохранить</button>
+  <button class="btn btn-primary" type="button" disabled *ngIf="isUpdated">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Подождите...
+  </button>
+
+  <pre>{{formCar.valid |json}}</pre>
+  <!--
+  <pre>{{formCar.get('brand').value |json}}</pre>
+<p>{{chassis | json}}</p>
+<pre>{{activeCar | json}}</pre>
+-->
+</form>
+</div>
