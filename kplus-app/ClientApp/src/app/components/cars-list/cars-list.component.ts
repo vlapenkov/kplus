@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ICarListItem} from '../interfaces/ICarListItem';
-import {ICarsResponse} from '../interfaces/ICarsResponse';
+import {ICarListItem} from '../../interfaces/ICarListItem';
+import {ICarsResponse} from '../../interfaces/ICarsResponse';
 
 
 @Component({

@@ -1,10 +1,11 @@
 
-<p>{{id}}</p>
+<h3 class="title">{{title}}</h3>
 
 <div *ngIf="!isLoading" class="col-8 col-xs-12">
   <div class="alert alert-danger" *ngIf="formCar.errors">
     <em *ngIf="formCar.errors.error400"> {{formCar.errors.error400.title}}</em>
     <em *ngIf="formCar.errors.error500"> {{formCar.errors.error500.title}}</em>
+
   </div>
 <form [formGroup]="formCar" >
   <div class="form-group" >
@@ -40,7 +41,7 @@
   </div>
 
   <div class="form-group" style="margin-top: 50px">
-    <label for="url">Url</label>
+    <label for="url">Ссылка на сайт</label>
   <input type="text" id="url" formControlName="url" class="form-control">
   </div>
   <button type="button" class="btn btn-primary" *ngIf="formCar.valid && !isUpdated" (click)="save()">Сохранить</button>
@@ -48,12 +49,12 @@
     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
     Подождите...
   </button>
-
-  <pre>{{formCar.valid |json}}</pre>
   <!--
-  <pre>{{formCar.get('brand').value |json}}</pre>
-<p>{{chassis | json}}</p>
-<pre>{{activeCar | json}}</pre>
--->
+    <pre>{{formCar.errors |json}}</pre>
+    
+    <pre>{{formCar.get('brand').value |json}}</pre>
+  <p>{{chassis | json}}</p>
+  <pre>{{activeCar | json}}</pre>
+  -->
 </form>
 </div>

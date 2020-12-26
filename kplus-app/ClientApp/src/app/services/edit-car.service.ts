@@ -1,6 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {ICarListItem} from './interfaces/ICarListItem';
+import {ICarListItem} from '../interfaces/ICarListItem';
 import {Observable} from 'rxjs';
 
 @Injectable({

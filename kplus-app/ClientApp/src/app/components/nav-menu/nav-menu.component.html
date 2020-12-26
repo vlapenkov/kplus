@@ -3,7 +3,8 @@
     class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
   >
     <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">Cars app</a>
+      <i class="fa fa-car fa-2x"></i>&nbsp;
+      <a class="navbar-brand" [routerLink]="['/']">Автомобили</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -20,6 +21,9 @@
         [ngClass]="{ show: isExpanded }"
       >
         <ul class="navbar-nav flex-grow">
+          <li class="nav-item">
+           <!-- Вызовов -->
+          </li>
           <!--<li
             class="nav-item"
             [routerLinkActive]="['link-active']"
@@ -31,12 +35,12 @@
             <a class="nav-link text-dark" [routerLink]="['/counter']"
               >Counter</a
             >
-          </li>-->
+          </li>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/cars-list']"
-            >Cars list</a
+            >Список авто</a
             >
-          </li>
+          </li>-->
         </ul>
       </div>
     </div>

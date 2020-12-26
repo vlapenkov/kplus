@@ -35,7 +35,7 @@ namespace kplus_app.Controllers
 
         // GET: api/Cars
         [HttpGet]
-        public async Task<CarQueryWithTotals> GetCars(int page = 1, int take = 5)
+        public async Task<CarQueryWithTotals> GetCars(int page = 1, int take = 10)
         {
             IPagedList<Car> cars = _carsRepo.GetAll(page, take);
 

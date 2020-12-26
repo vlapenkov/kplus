@@ -1,11 +1,11 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {IListItem} from '../interfaces/IListItem';
-import {ICarListItem} from '../interfaces/ICarListItem';
+import {IListItem} from '../../interfaces/IListItem';
+import {ICarListItem} from '../../interfaces/ICarListItem';
 import {FormBuilder,  FormGroup, Validators} from '@angular/forms';
-import {EditCarService} from '../edit-car.service';
-import {ListsService} from '../lists-service.service';
+import {EditCarService} from '../../services/edit-car.service';
+import {ListsService} from '../../services/lists-service.service';
 
 @Component({
   selector: 'app-edit-car',
@@ -20,6 +20,7 @@ export class EditCarComponent implements OnInit {
   private isLoading = true;
   private isUpdated = false;
   private urlImage: string  = null;
+  private  title: string;
 
   get urlPath() {
     return  this.urlImage || '/assets/200_100.png';
@@ -38,7 +39,9 @@ export class EditCarComponent implements OnInit {
   ngOnInit() {
 
    this.id = this._route.snapshot.params['id'];
-    this._listService.getLists().subscribe(res => [this.brands, this.chassis] = res );
+    this.title = this._route.snapshot.data.title;
+    [this.brands, this.chassis] = this._route.snapshot.data.lists;
+
 
     this.loadEmpty();
     if (this.id) {
@@ -120,7 +123,7 @@ export class EditCarComponent implements OnInit {
 
 
   processSuccess() {
-    this._router.navigateByUrl('/cars-list');
+    this._router.navigateByUrl('/');
   }
 
 

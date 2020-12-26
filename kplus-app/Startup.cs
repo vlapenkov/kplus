@@ -27,9 +27,8 @@ namespace kplus_app
               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<CarsRepository>();
-            services.AddScoped<ImageRepository>();
-
-            services.AddControllersWithViews();
+           
+            services.AddControllers();
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -93,6 +92,7 @@ namespace kplus_app
                 }
             });
 
+            // автомиграция
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 var context = serviceScope.ServiceProvider.GetService<CarsDbContext>();

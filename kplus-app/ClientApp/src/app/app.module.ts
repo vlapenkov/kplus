@@ -5,13 +5,16 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { CarsListComponent } from './cars-list/cars-list.component';
-import { EditCarComponent } from './edit-car/edit-car.component';
-import { LoaderComponent } from './loader/loader.component';
+import { NavMenuComponent } from './components/nav-menu/nav-menu.component';
+import { HomeComponent } from './components/home/home.component';
+import { CounterComponent } from './components/counter/counter.component';
+import { CarsListComponent } from './components/cars-list/cars-list.component';
+import { EditCarComponent } from './components/edit-car/edit-car.component';
+import { LoaderComponent } from './components/loader/loader.component';
 import {NgxPaginationModule} from 'ngx-pagination';
+import {ListsResolveService} from './services/lists-resolve.service';
+import routes from './routes';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 
 
@@ -24,7 +27,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
     CounterComponent,
     CarsListComponent,
     EditCarComponent,
-    LoaderComponent
+    LoaderComponent,
+    NotFoundComponent
 
   ],
   imports: [
@@ -33,14 +37,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     FormsModule,
     NgxPaginationModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'cars-list', component: CarsListComponent },
-      { path: 'edit-car', component: EditCarComponent },
-      { path: 'edit-car/:id', component: EditCarComponent },
-     // { path: '**', component: NotFoundComponent },
-    ])
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]

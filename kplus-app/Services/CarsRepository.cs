@@ -24,7 +24,7 @@ namespace kplus_app.Services
             this._dbContext = dbContext;
         }
 
-       public IPagedList<Car> GetAll(int page = 1, int take = 5)
+       public IPagedList<Car> GetAll(int page = 1, int take = 10)
         {
             var query = _dbContext.Cars.AsQueryable();
             var result =  query
@@ -84,7 +84,8 @@ namespace kplus_app.Services
 
         public async Task<Car> Delete(Guid id)
         {
-            var car = await _dbContext.Cars.FindAsync(id);
+            var car = await this.Get(id);
+            // var car = await _dbContext.Cars.FindAsync(id);
 
             _dbContext.Cars.Remove(car);
 

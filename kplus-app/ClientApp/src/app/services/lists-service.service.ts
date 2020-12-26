@@ -1,7 +1,7 @@
 import {Inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, forkJoin} from 'rxjs';
-import {IListItem} from './interfaces/IListItem';
+import {IListItem} from '../interfaces/IListItem';
 
 @Injectable({
   providedIn: 'root'

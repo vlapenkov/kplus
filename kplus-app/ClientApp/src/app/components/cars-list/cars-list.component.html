@@ -1,7 +1,7 @@
 <h1 id="tableLabel">Список авто</h1>
 
 
-<div style="margin-bottom: 5px;"><a routerLink="/edit-car"><button class="btn btn-success pull-right" > Добавить</button></a></div>
+<div style="margin-bottom: 5px;"><a class="btn btn-success" routerLink="/edit-car"> Добавить</a></div>
 
 <div *ngIf="carItems; else loading">
 <table class='table table-striped' aria-labelledby="tableLabel" >
@@ -17,7 +17,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let car of carItems | paginate: { itemsPerPage: 5, currentPage: p ,totalItems:totalItems} ">
+  <tr *ngFor="let car of carItems | paginate: { itemsPerPage: 10, currentPage: p ,totalItems:totalItems} ">
     <td><a [routerLink]="['/edit-car',car.id ]">
       {{ car.brand.name }}
     </a>
@@ -27,8 +27,10 @@
     <td>{{ car.created | date:'dd.MM.yyyy' }}</td>
     <td>{{ car.seatsCount }}</td>
     <td>{{ car.url }}</td>
-    <td><a (click)="delete(car.id)" class="clear-field">×</a>
-
+    <td>
+      <a title="Редактировать" class="fa fa-external-link" [routerLink]="['/edit-car',car.id ]">
+      </a> &nbsp;
+    <a [routerLink]=""(click)="delete(car.id)" title="Удалить" class="fa fa-times"></a>
     </td>
   </tr>
   </tbody>
