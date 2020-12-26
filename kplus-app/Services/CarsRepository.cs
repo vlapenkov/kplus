@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace kplus_app.Services
 {
@@ -15,6 +16,7 @@ namespace kplus_app.Services
     /// </summary>
     public class CarsRepository {
 
+       
         private readonly CarsDbContext _dbContext;
 
         public CarsRepository(CarsDbContext dbContext)
@@ -22,29 +24,26 @@ namespace kplus_app.Services
             this._dbContext = dbContext;
         }
 
-
-        public async Task<IEnumerable<Car>> GetAll(Expression<Func<Car,bool>> predicate = null)
+       public IPagedList<Car> GetAll(int page = 1, int take = 5)
         {
-         var query = _dbContext.Cars.AsQueryable();
-            if (predicate != null)
-                query = query.Where( predicate);
-            
-            var result = await query
+            var query = _dbContext.Cars.AsQueryable();
+            var result =  query
                 .Include(car => car.Brand)
                 .Include(car => car.ChassisType)
-                .ToListAsync();
-
+                .OrderByDescending(car => car.Created)
+                .AsNoTracking()
+                .ToPagedList<Car>(page, take);
             return result;
         }
 
-
+       
         public async Task<Car> Get(Guid id)
         {
             var car = await _dbContext.Cars
                 .Include(car => car.Brand)
                 .Include(car => car.ChassisType)
                 .FirstAsync(car=>car.Id==id);
-
+            car.SetImage( _dbContext.CarImages.FirstOrDefault(p => p.Id == id)?.Image);
             return car;
         }
 
@@ -58,17 +57,28 @@ namespace kplus_app.Services
                 throw new NotValidException("В базе данных дубль по этим параметрам");
 
             _dbContext.Cars.Add(newCar);
+            UpsertImage(newCar.Id, newCar.UrlImage);
         }
 
+        private void UpsertImage(Guid id, string image)
+        {
+            var carFound = _dbContext.CarImages.FirstOrDefault(p => p.Id == id);
 
-        public Car UpdateCar(Guid id, int brandId, string modelName, int chassisTypeId, int seetCount, string url)
+            if (carFound == null)
+                _dbContext.CarImages.Add(new CarImage { Id = id, Image = image });
+            else
+                carFound.Image = image;
+        }
+
+        public Car UpdateCar(Guid id, int brandId, string modelName, int chassisTypeId, int seetCount, string url, string urlImage)
         {
             if (DoublesExist(brandId, modelName, chassisTypeId, seetCount,id))
                 throw new NotValidException("В базе данных дубль по этим параметрам");
 
             var carFound =_dbContext.Cars.First(car => car.Id == id);
 
-            Car.UpdateCar(carFound, brandId, modelName, chassisTypeId, seetCount, url);
+            Car.UpdateCar(carFound, brandId, modelName, chassisTypeId, seetCount, url, urlImage);
+            UpsertImage(carFound.Id, carFound.UrlImage);
             return carFound;
         }
 

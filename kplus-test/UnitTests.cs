@@ -21,7 +21,7 @@ namespace kplus_test
         protected override void PrepareData()
         {
             base.PrepareData();
-           var cars = new[] { new Car(1, "A8", 1, 10, "https://audi.ru") };
+           var cars = new[] { new Car(1, "A8", 1, 10, "https://audi.ru","base64:") };
             _db.Cars.AddRange(cars);
             _db.SaveChanges();
         }
@@ -29,18 +29,18 @@ namespace kplus_test
         public async Task AddDoubleCar_ThrowsException()
         {
            var repo = new CarsRepository(_db);
-            var newCar = new Car(1, "A8", 1, 10, "https://audi.ru");
+            var newCar = new Car(1, "A8", 1, 10, "https://audi.ru", "base64:");
             await Assert.ThrowsAsync<NotValidException>(()=>repo.Add(newCar));
         }
 
         [Theory]
-        [InlineData(1,null,1,20,null)]
-        [InlineData(1, null, 1, 13, "https://test.ru")]
-        [InlineData(1, null, 1, 4, "https://test.de")]
-        public async Task ValidateParameters_ShouldFail(int brand, string model, int chassis, int seats, string url)
+        [InlineData(1,null,1,20,null, "base64:")]
+        [InlineData(1, null, 1, 13, "https://test.ru", "base64:")]
+        [InlineData(1, null, 1, 4, "https://test.de", "base64:")]
+        public async Task ValidateParameters_ShouldFail(int brand, string model, int chassis, int seats, string url, string urlImage)
         { 
         
-          Assert.Throws<NotValidException>(() => new Car(brand, model, chassis, seats, url));
+          Assert.Throws<NotValidException>(() => new Car(brand, model, chassis, seats, url, urlImage));
         }
 
         [Theory]
@@ -53,12 +53,12 @@ namespace kplus_test
             CarsController carsController = new CarsController(
                 _db, 
                 _logger.Object, 
-                new CarsRepository(_db), 
-                new ImageRepository(_db));
+                new CarsRepository(_db));
 
           await  carsController.PostCar(new CreateCarCommand
             { BrandId = brand, ModelName = model, ChassisTypeId = chassis, SeatsCount = seats, Url = url, 
-                UrlImage = "base64:" });
+                UrlImage = urlImage
+          });
 
            Assert.Equal(2, _db.Cars.Count());
 
@@ -71,7 +71,7 @@ namespace kplus_test
         {
             var _logger = new Mock<ILogger<CarsController>>();
                         
-            CarsController carsController = new CarsController(_db,_logger.Object,new CarsRepository(_db), new ImageRepository(_db));
+            CarsController carsController = new CarsController(_db,_logger.Object,new CarsRepository(_db));
 
           await  carsController.PostCar(new CreateCarCommand
             { BrandId = 2, ModelName = "A10", ChassisTypeId = 1, SeatsCount = 4, Url = "https://ya.ru", UrlImage = "base64:" });

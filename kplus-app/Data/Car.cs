@@ -30,7 +30,7 @@ Url сайта официального дилера - строка, длина 
 
         }
 
-        public static void ValidateParameters(int brandId, string modelName, int chassisTypeId, int seetCount, string url)
+        public static void ValidateParameters(int brandId, string modelName, int chassisTypeId, int seetCount, string url, string urlImage)
         {
             if ( seetCount > 12)
                 throw new NotValidException("Число сидений  превышает допустимое", nameof(seetCount));
@@ -46,24 +46,32 @@ Url сайта официального дилера - строка, длина 
                 if (!regex.IsMatch(url))
                     throw new NotValidException("Некорретное название сайта", nameof(url));
             }
+
+            if (String.IsNullOrEmpty(urlImage))
+                throw new NotValidException("Обязательно ввести изображение", nameof(urlImage));
         }
 
-        public static void UpdateCar(Car car, int brandId, string modelName, int chassisTypeId, int seetCount, string url)
+        public static void UpdateCar(Car car, int brandId, string modelName, int chassisTypeId, int seetCount, string url, string urlImage)
         {
-            ValidateParameters(brandId, modelName, chassisTypeId, seetCount, url);
+            ValidateParameters(brandId, modelName, chassisTypeId, seetCount, url,urlImage);
             car.BrandId = brandId;
             car.ModelName = modelName;
             car.ChassisTypeId = chassisTypeId;
             car.SeatsCount = seetCount;
             car.Url = url;
+            car.UrlImage = urlImage;
         }
 
 
+        public void SetImage(string urlImage)
+        {
+            this.UrlImage = urlImage;
+        }
 
-        public Car(int brandId, string modelName, int chassisTypeId, int seetCount, string url)
+        public Car(int brandId, string modelName, int chassisTypeId, int seetCount, string url, string urlImage)
         {
             this.Id = Guid.NewGuid();
-            UpdateCar(this, brandId, modelName, chassisTypeId, seetCount, url);
+            UpdateCar(this, brandId, modelName, chassisTypeId, seetCount, url, urlImage);
         }
 
 
@@ -88,5 +96,7 @@ Url сайта официального дилера - строка, длина 
         [StringLength(1000)]
         public string Url { get; private set; }
 
+        [NotMapped]
+        public string UrlImage { get; private set; }
     }
 }
