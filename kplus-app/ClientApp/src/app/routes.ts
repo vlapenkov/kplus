@@ -4,7 +4,7 @@ import {EditCarComponent} from './components/edit-car/edit-car.component';
 import {ListsResolveService} from './services/lists-resolve.service';
 import {NotFoundComponent} from './components/not-found/not-found.component';
 
-const routes = [
+export const routes = [
   { path: '', component: CarsListComponent, pathMatch: 'full' },
   { path: 'counter', component: CounterComponent },
   { path: 'edit-car',
@@ -22,4 +22,4 @@ const routes = [
   },
   { path: '**', component: NotFoundComponent },
 ];
-export default routes;
+

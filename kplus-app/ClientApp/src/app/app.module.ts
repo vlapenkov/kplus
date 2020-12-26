@@ -13,7 +13,7 @@ import { EditCarComponent } from './components/edit-car/edit-car.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import {NgxPaginationModule} from 'ngx-pagination';
 import {ListsResolveService} from './services/lists-resolve.service';
-import routes from './routes';
+import {routes} from './routes';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 
 
